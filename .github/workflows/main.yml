@@ -5,24 +5,25 @@ on:
 
 jobs:
   web-tests:
-
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout do projeto
+        uses: actions/checkout@v4
 
-      # clone do projeto para a máquina
-      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-      # conferir a versao instalada
-      - name: Node version
-        run: node --version
+      - name: Instalar dependências
+        run: npm ci
 
-      - name: Instalando dependencias 
-        run: npm install
+      - name: Instalar Cypress
+        run: npx cypress install
 
-      - name: Executando os testes 
+      - name: Ajustar permissões do Cypress
+        run: chmod +x ./node_modules/.bin/cypress
+
+      - name: Executar os testes
         run: npx cypress run
-
-      
-
-        
