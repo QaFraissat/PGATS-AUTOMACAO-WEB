@@ -1,0 +1,29 @@
+name: Web E2E Testes
+
+on:
+  workflow_dispatch:
+
+jobs:
+  web-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do projeto
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Instalar Cypress
+        run: npx cypress install
+
+      - name: Ajustar permissões do Cypress
+        run: chmod +x ./node_modules/.bin/cypress
+
+      - name: Executar os testes
+        run: npx cypress run
